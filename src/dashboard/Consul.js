@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 //import BASE URL API
 import Api from "../api";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 //import js cookie
 import Cookies from "js-cookie";
@@ -52,9 +52,10 @@ function CategoriesIndex() {
     //Javascript split method to get the name of the path in array
     const splitLocation = pathname.split("/");
 
-    let submit = document.getElementById('submit');
+    let disease = document.getElementById('disease');
+    let current = document.getElementById('current')
 
-    // if(submit){
+    // if(){
         return (
             <React.Fragment>
                 <div className="container mt-5">
@@ -70,39 +71,28 @@ function CategoriesIndex() {
                                     <h5>Consultation</h5>
                                 </div>
                                 <div className="card-body">
-                                    <table className="table table-striped">
-                                        <tbody>
-                                        <tr>
-                                            <td>Status</td>
-                                            <td className="bg-primary text-light rounded-1 text-center">{consultations.status}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Disease History</td>
-                                            <td className="text-center">{consultations.disease_history}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Current Symptoms</td>
-                                            <td className="text-center">{consultations.current_symptoms}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Doctor Name</td>
-                                            <td className="text-center">{consultations.doctor}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Doctor Note</td>
-                                            <td className="text-center">{consultations.doctor_note}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <Link className={splitLocation[2] === "consultations" ? "active" : "text-decoration-none"} to="/admin/consultations">+Request Consultation</Link>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+            {/* <div className="row">
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-header">
+                            <h5>First Vaccination</h5>
+                        </div>
+                        <div className="card-body">
+                        <Link className={splitLocation[2] === "consultations" ? "active" : "text-decoration-none"} to="/admin/consultations">Consul dlu bos</Link>
+                        </div>
+                    </div>
                 </div>
+            </div> */}
+        </div>
             </React.Fragment>
         )
     // }
-
     // return (
     //     <React.Fragment>
     //         <div className="container mt-5">
@@ -118,7 +108,30 @@ function CategoriesIndex() {
     //                             <h5>Consultation</h5>
     //                         </div>
     //                         <div className="card-body">
-    //                         <Link className={splitLocation[2] === "consultations" ? "active" : "text-decoration-none"} to="/admin/consultations">+Request Consultation</Link>
+    //                             <table className="table table-striped">
+    //                                 <tbody>
+    //                                 <tr>
+    //                                     <td>Status</td>
+    //                                     <td className="bg-primary text-light rounded-1 text-center">{consultations.status}</td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td>Disease History</td>
+    //                                     <td className="text-center">{consultations.disease_history}</td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td>Current Symptoms</td>
+    //                                     <td className="text-center">{consultations.current_symptoms}</td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td>Doctor Name</td>
+    //                                     <td className="text-center">{consultations.doctor}</td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td>Doctor Note</td>
+    //                                     <td className="text-center">{consultations.doctor_note}</td>
+    //                                 </tr>
+    //                                 </tbody>
+    //                             </table>
     //                         </div>
     //                     </div>
     //                 </div>
@@ -126,6 +139,7 @@ function CategoriesIndex() {
     //         </div>
     //     </React.Fragment>
     // )
+
 
 
 }

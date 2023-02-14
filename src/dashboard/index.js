@@ -5,6 +5,7 @@ import Consul from "./Consul";
 
 import NavBar from "./nav";
 
+
 function Dashboard() {
 
 	//title page

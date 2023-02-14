@@ -23,6 +23,7 @@ function Request() {
     //state
     const [disease_history, setdisease_history] = useState("");
     const [current_symptoms, setcurrent_symptoms] = useState("");
+    const [user_id, setuser_id] = useState("");
 
     //state validation
     const [validation, setValidation] = useState({});
@@ -41,7 +42,8 @@ function Request() {
 
         //append data to "formData"
         formData.append('disease_history', disease_history);
-        formData.append('current_symptoms', current_symptoms);
+        formData.append('current_symptoms', current_symptoms); 
+        formData.append('user_id', user_id); 
 
         await Api.post('/api/v1/auth/consultations', formData, {
 
@@ -80,6 +82,7 @@ function Request() {
         <React.Fragment>
         <NavBar></NavBar>
         
+                                        <input type="text" id="id" className="form-control" value={localStorage.getItem('id_card')} onChange={(e) => setuser_id(e.target.value)} placeholder="Enter Disease History"/>
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-success">
@@ -87,7 +90,7 @@ function Request() {
                                 <form onSubmit={storeCategory}>
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Disease History</label>
-                                        <input type="text" className="form-control" value={disease_history} onChange={(e) => setdisease_history(e.target.value)} placeholder="Enter Disease History"/>
+                                        <input type="text" id="disease" className="form-control" value={disease_history} onChange={(e) => setdisease_history(e.target.value)} placeholder="Enter Disease History"/>
                                     </div>
                                     {validation.image && (
                                         <div className="alert alert-danger">
@@ -96,7 +99,7 @@ function Request() {
                                     )}
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Current Symptoms</label>
-                                        <input type="text" className="form-control" value={current_symptoms} onChange={(e) => setcurrent_symptoms(e.target.value)} placeholder="Enter Current Symptoms"/>
+                                        <input type="text" id="current" className="form-control" value={current_symptoms} onChange={(e) => setcurrent_symptoms(e.target.value)} placeholder="Enter Current Symptoms"/>
                                     </div>
                                     {validation.name && (
                                         <div className="alert alert-danger">

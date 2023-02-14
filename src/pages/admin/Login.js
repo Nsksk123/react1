@@ -1,5 +1,5 @@
 //import hook react
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import BASE URL API
 import Api from "../../api";
@@ -15,18 +15,20 @@ import { useHistory, Redirect } from "react-router-dom";
 
 function Login() {
 
-	//title page
+    //title page
     document.title = "Login - Administrator Travel GIS";
-
+    
     //state user
-    const [id_card, setid_card] = useState("");
     const [password, setPassword] = useState("");
-
+    
+    
+    const [id_card, setid_card] = useState("")
     //state loading
     const [isLoading, setLoading] = useState(false);
-
+    
     //state validation
     const [validation, setValidation] = useState({});
+    localStorage.setItem('id_card', id_card)
 
     //history
     const history = useHistory();
@@ -76,9 +78,10 @@ function Login() {
         //redirect dashboard page
         return <Redirect to="/admin/dashboard"></Redirect>;
     }
-
-
+    
+    
     return (
+        
         <React.Fragment>
             <div className="container">
                 <div className="row justify-content-center">
@@ -98,11 +101,13 @@ function Login() {
                                     </div>
                                 )}
                                 <form onSubmit={loginHandler}>
+                                    
+
 
                                     <label className="mb-1">ID CARD</label>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text"><i className="fa fa-envelope"></i></span>
-                                        <input type="text" className="form-control" value={id_card} onChange={(e) => setid_card(e.target.value)} placeholder="ID Card" />
+                                        <input type="text" id="id_card" className="form-control" value={id_card} onChange={(e) => setid_card(e.target.value)} placeholder="ID Card" />
                                     </div>
                                     {validation.id_card && (
                                         <div className="alert alert-danger">
@@ -130,7 +135,7 @@ function Login() {
             </div>
         </React.Fragment>
     )
-
+    
 }
 
 export default Login;

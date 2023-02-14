@@ -13,6 +13,8 @@ import Login from '../pages/admin/Login';
 
 import Request from "../dashboard/request";
 
+import Jajal from "../dashboard/jajal";
+
 //import view admin Dashboard
 import Dashboard from "../dashboard";
 
@@ -27,6 +29,10 @@ function Routes() {
 
             <Route exact path={"/admin/consultations"}>
                 <Request/>
+            </Route>
+            
+            <Route exact path={"/admin/jajals"}>
+                <Jajal/>
             </Route>
 
             {/* private route "/admin/dashboard" */}
