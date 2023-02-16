@@ -21,6 +21,7 @@ function Login() {
     //state user
     const [password, setPassword] = useState("");
     
+    const [role, setRole] = useState("");
     
     const [id_card, setid_card] = useState("")
     //state loading
@@ -61,6 +62,7 @@ function Login() {
 
                 //set cookie
                 Cookies.set("token", response.data.token);
+                Cookies.set('role', response.data.body.status);
 
                 //redirect dashboard page
                 history.push("/admin/dashboard");
@@ -73,6 +75,8 @@ function Login() {
                 setValidation(error.response.data);
             });
     };
+
+
 
     if (Cookies.get("token")) {
         //redirect dashboard page
