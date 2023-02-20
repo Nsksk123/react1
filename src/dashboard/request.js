@@ -24,6 +24,7 @@ function Request() {
     const [disease_history, setdisease_history] = useState("");
     const [current_symptoms, setcurrent_symptoms] = useState("");
     const [user_id, setuser_id] = useState("");
+    const [name, setname] = useState("");
     
     const fetchData = async () => {
         await Api.get('api/v1/auth/users', {
@@ -33,6 +34,7 @@ function Request() {
         })
         .then(response => {
             setuser_id(response.data.id_card);
+            setname(response.data.name);
         });
     }
 
@@ -53,7 +55,7 @@ function Request() {
     const storeCategory = async (e) => {
         e.preventDefault();
 
-        await Api.post('/api/v1/auth/consultations', {disease_history, current_symptoms, user_id}, {
+        await Api.post('/api/v1/auth/consultations', {disease_history, current_symptoms, user_id, name}, {
 
                 //header
                 headers: {
@@ -73,7 +75,6 @@ function Request() {
                         color: '#fff',
                     },
                 });
-
                 //redirect dashboard page
                 history.push("/admin/dashboard");
 
@@ -96,7 +97,8 @@ function Request() {
                             <div className="card-body">
                                 <form onSubmit={storeCategory}>
                                     <div className="mb-3">
-                                        <input type="text" id="disease" className="form-control" value={user_id} onChange={(e) => setuser_id(e.target.value)} placeholder="Enter Disease History"/>
+                                        <input type="hidden" id="disease" className="form-control" value={user_id} onChange={(e) => setuser_id(e.target.value)} placeholder="Enter Disease History"/>
+                                        <input type="hidden" id="disease" className="form-control" value={name} onChange={(e) => setname(e.target.value)} placeholder="Enter Disease History"/>
                                         
                                         <label className="form-label fw-bold">Disease History</label>
                                         <input type="text" id="disease" className="form-control" value={disease_history} onChange={(e) => setdisease_history(e.target.value)} placeholder="Enter Disease History"/>

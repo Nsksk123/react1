@@ -63,6 +63,8 @@ function Login() {
                 //set cookie
                 Cookies.set("token", response.data.token);
                 Cookies.set('role', response.data.body.status);
+                Cookies.set('name', response.data.body.name);
+                
 
                 //redirect dashboard page
                 history.push("/admin/dashboard");

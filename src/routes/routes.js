@@ -15,6 +15,8 @@ import Request from "../dashboard/request";
 
 import Jajal from "../dashboard/jajal";
 
+import UserEdit from "../dashboard/statusDoctor";
+
 //import view admin Dashboard
 import Dashboard from "../dashboard";
 
@@ -33,6 +35,10 @@ function Routes() {
             
             <Route exact path={"/admin/jajals"}>
                 <Jajal/>
+            </Route>
+
+            <Route exact path={"/admin/edit"}>
+                <UserEdit></UserEdit>
             </Route>
 
             {/* private route "/admin/dashboard" */}

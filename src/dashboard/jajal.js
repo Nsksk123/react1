@@ -1,63 +1,224 @@
 import React from "react";
 
 import { useState, useEffect } from "react";
-import Login from "../pages/admin/Login";
 
-function Jajal(){
+//import BASE URL API
+import Api from "../api";
+
+//import hook history dari react router dom
+import { useHistory, useParams } from "react-router-dom";
+
+//import js cookie
+import Cookies from "js-cookie";
+
+//import toats
+import toast from "react-hot-toast";
+
+function Jajal() {
+
+    //title page
+    document.title = "Edit User - Administrator Travel GIS";
+
+    //state
+    const [doctor_notes, setdoctor_notes] = useState("");
+    const [status, setstatus] = useState("");
+
+    //state validation
+    const [validation, setValidation] = useState({});
+
+    //token
+    const token = Cookies.get("token");
+
+    //history
+    const history = useHistory();
+
+    //get ID from parameter URL
+    const { id } = useParams();
+
+    const [categories, setCategories] = useState([]);
+
+    //state currentPage
+    const [currentPage, setCurrentPage] = useState(1);
+
+    //state perPage
+    const [perPage, setPerPage] = useState(0);
+
+    //state total
+    const [total, setTotal] = useState(0);
+
+     const [user_id, setuser_id] = useState("");
     
-    const [id, setId] = useState([]);
-
-    const fetchData = () => {
-        fetch('api/v1/auth/login', {
-            method: 'POST',
+    const fetchData1 = async () => {
+        await Api.get('api/v1/auth/consultations', {
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"id": "1"})
+                Authorization: `Bearer ${token}`
+            }
         })
-        .then(response => response.json())
-        .then(data => setId(id))
-        .catch(error => console.log(error));
-    };
+        .then(response => {
+            setuser_id(response.data);
+        });
+    }
 
     useEffect(() => {
+        fetchData1();
+    });
+
+    //function "fetchData"
+    const fetchData = async () => {
+
+        //fetching data from Rest API
+        await Api.get('/api/v1/auth/showconsultations', {
+            headers: {
+                //header Bearer + Token
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            //set data response to state "categories"
+            setCategories(response.data.data.data);
+
+            //set currentPage
+            setCurrentPage(response.data.data.current_page);
+
+            //set perPage
+            setPerPage(response.data.data.per_page);
+
+            //total
+            setTotal(response.data.data.total);
+        });
+    };
+
+    //hook
+    useEffect(() => {
+        //call function "fetchData"
         fetchData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+
+    //function "getUserById"
+    const getUserById = async () => {
+
+        //get data from server
+        const response = await Api.get(`/api/v1/auth/consultations/${categories.id}`, {
+
+            //header
+            headers: {
+                //header Bearer + Token
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        //get response data
+        const data = await response.data.body
+
+        //assign data to state "name"
+        setdoctor_notes(data.note);
+        //assign data to state "email"
+        setstatus(data.status);
+    };
+
+    //hook useEffect
+    useEffect(() => {
+
+        //panggil function "getUserById"
+        getUserById();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    //function "updateUser"
+    const updateUser = async (e) => {
+        e.preventDefault();
+
+        //define formData
+        const formData = new FormData();
+
+        //append data to "formData"
+        formData.append('status', status);
+        formData.append('doctor_notes', doctor_notes);
+        formData.append('_method', 'PATCH');
+
+        await Api.post(`/api/v1/auth/consultations/${categories.id}`, formData, {
+
+                //header
+                headers: {
+                    //header Bearer + Token
+                    Authorization: `Bearer ${token}`,
+                }
+
+            }).then(() => {
+
+                //show toast
+                toast.success("Data Updated Successfully!", {
+                    duration: 4000,
+                    position: "top-right",
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                });
+
+                //redirect dashboard page
+                history.push("/admin/jajals");
+
+            })
+            .catch((error) => {
+
+                //set state "validation"
+                setValidation(error.response.data);
+            })
+
+    }
 
     return (
         <React.Fragment>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+                <div className="row mt-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-success">
+                            <div className="card-header">
+                                <span className="font-weight-bold"><i className="fa fa-users"></i> EDIT USER</span>
+                            </div>
+                            <div className="card-body">
+                                <form onSubmit={updateUser}>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name"/>
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">Full Name</label>
+                                                <input type="text" className="form-control" value={doctor_notes} onChange={(e) => setdoctor_notes(e.target.value)} placeholder="Enter Full Name"/>
+                                            </div>
+                                            {validation.doctor_notes && (
+                                                <div className="alert alert-danger">
+                                                    {validation.doctor_notes[0]}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="form-label fw-bold">Email Address</label>
+                                                <input type="text" className="form-control" value={status} onChange={(e) => setstatus(e.target.value)} placeholder="Enter Email Address"/>
+                                            </div>
+                                            {validation.status && (
+                                                <div className="alert alert-danger">
+                                                    {validation.status[0]}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" className="btn btn-md btn-success me-2"><i className="fa fa-save"></i> UPDATE</button>
+                                        <button type="reset" className="btn btn-md btn-warning"><i className="fa fa-redo"></i> RESET</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+              <p>{categories.id}dasd</p>
         </React.Fragment>
-    )
+    );
 }
-
 export default Jajal;
