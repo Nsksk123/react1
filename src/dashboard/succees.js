@@ -106,7 +106,7 @@ function Success() {
                                     </tr>
                                     <tr>
                                         <td>Doctor Note</td>
-                                        <td className="text-center">{consultations.doctor_note}</td>
+                                        <td className="text-center">{consultations.doctor_notes}</td>
                                     </tr>
                                     </tbody>
                                 </table>

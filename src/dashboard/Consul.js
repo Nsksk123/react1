@@ -6,11 +6,13 @@ import Api from "../api";
 //import js cookie
 import Cookies from "js-cookie";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 import "bootstrap/dist/js/bootstrap"
 
 import toast from "react-hot-toast";
+
+import { Link } from "react-router-dom";
 function CategoriesIndex() {
 
 	//title page
@@ -24,11 +26,12 @@ function CategoriesIndex() {
 
     const history = useHistory();
 
+    const location = useLocation();
     //get ID from parameter URL
-    const { id } = useParams();
+    const id = 'categories.id';
 
     const getUserById = async () => {
-    const response = await Api.get(`/api/v1/auth/consultations/${id}`, {
+    const response = await Api.get(`/api/v1/auth/consultations/${categories.id}`, {
 
         //header
         headers: {
@@ -66,7 +69,7 @@ const updateUser = async (e) => {
     formData.append('note', doctor_notes);
     formData.append('_method', 'PATCH');
 
-    await Api.post(`/api/v1/auth/consultations/${id}`, formData, {
+    await Api.post(`/api/v1/auth/consultations/${categories.id}`, formData, {
 
             //header
             headers: {
@@ -191,28 +194,17 @@ const updateUser = async (e) => {
                                                 <td>{category.current_symptoms}</td>
                                                 <td className="text-center">
                                                 {/* model */}
-                                                <a href={category.id} class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Accept</a>
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <form onSubmit={updateUser}>
-                                                            <input type={'hidden'} value="accept" onChange={(e) => setstatus(e.target.value)}></input>
-                                                            <label>Doctor Notes</label>
-                                                            <input className="form-control" type={'text'} value={doctor_notes} onChange={(e) => setdoctor_notes(e.target.value)}></input>
-                                                            {validation.note && (
-                                                                <div className="alert alert-danger">
-                                                                    {validation.note[0]}
-                                                                </div>
-                                                            )}
-                                                        <button type="submit" onClick={updateUser} className="btn btn-primary">Send</button>
-                                                        </form>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                                </div>
+
+                                                
+                                                        <div class="dropdown-center">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Select Confirm
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><Link to={`/admin/edit/${category.id}`} id="accept" className="dropdown-item">accept</Link></li>
+                                                                <li><Link to={`/admin/edit/${category.id}`} id="reject" className="dropdown-item">reject</Link></li>
+                                                            </ul>
+                                                        </div>
                                                 {/* model */}
                                                 </td>
                                             </tr>

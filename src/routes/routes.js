@@ -20,6 +20,7 @@ import UserEdit from "../dashboard/statusDoctor";
 //import view admin Dashboard
 import Dashboard from "../dashboard";
 
+import Confirmasi from "../dashboard/confirmasi";
 function Routes() {
     return (
         <Switch>
@@ -36,10 +37,10 @@ function Routes() {
             <Route exact path={"/admin/jajals"}>
                 <Jajal/>
             </Route>
-
-            <Route exact path={"/admin/edit"}>
-                <UserEdit></UserEdit>
-            </Route>
+           
+            <PrivateRoute exact path={"/admin/edit/:id"}>
+                <Confirmasi></Confirmasi>
+            </PrivateRoute>
 
             {/* private route "/admin/dashboard" */}
             <PrivateRoute exact path="/admin/dashboard">
