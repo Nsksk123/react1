@@ -64,6 +64,7 @@ function Login() {
                 Cookies.set("token", response.data.token);
                 Cookies.set('role', response.data.body.status);
                 Cookies.set('name', response.data.body.name);
+                Cookies.set('region', response.data.body.region);
                 
 
                 //redirect dashboard page

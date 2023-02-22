@@ -20,6 +20,8 @@ import UserEdit from "../dashboard/statusDoctor";
 //import view admin Dashboard
 import Dashboard from "../dashboard";
 
+import Register from "../dashboard/registrasi";
+
 import Confirmasi from "../dashboard/confirmasi";
 function Routes() {
     return (
@@ -36,6 +38,10 @@ function Routes() {
             
             <Route exact path={"/admin/jajals"}>
                 <Jajal/>
+            </Route>
+
+            <Route exact path={"/admin/register"}>
+                <Register/>
             </Route>
            
             <PrivateRoute exact path={"/admin/edit/:id"}>

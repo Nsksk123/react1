@@ -200,7 +200,7 @@ function Confirmasi() {
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="form-label fw-bold">Confirm</label>
-                                                <input type="text" className="form-control" value={'accept'} onChange={(e) => setstatus(e.target.value)} placeholder="Enter Email Address"/>
+                                                <input type="text" className="form-control" onChange={(e) => setstatus(e.target.value)} placeholder="Enter Email Address"/>
                                             </div>
                                             {validation.status && (
                                                 <div className="alert alert-danger">
