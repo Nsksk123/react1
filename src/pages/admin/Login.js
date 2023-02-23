@@ -81,7 +81,7 @@ function Login() {
 
 
 
-    if (Cookies.get("token")) {
+    if (Cookies.get("token")) {     
         //redirect dashboard page
         return <Redirect to="/admin/dashboard"></Redirect>;
     }

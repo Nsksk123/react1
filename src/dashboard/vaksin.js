@@ -13,7 +13,7 @@ import "bootstrap/dist/js/bootstrap"
 import toast from "react-hot-toast";
 
 import { Link } from "react-router-dom";
-function Register() {
+function Vaccine() {
 
 	//title page
     document.title = "Categories - Administrator Travel GIS";
@@ -102,6 +102,7 @@ const updateUser = async (e) => {
 
 }
 
+    
 
     //state posts
     const [categories, setCategories] = useState([]);
@@ -133,7 +134,7 @@ const updateUser = async (e) => {
         })
         .then(response => {
             //set data response to state "categories"
-            setCategories(response.data.body);
+            setCategories(response.data.vaccine);
 
             setVaksin(response.data.vaccine)
 
@@ -156,39 +157,19 @@ const updateUser = async (e) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [selectedHospital, setSelectedHospital] = useState(null);
-    const [vaccineDisabled, setVaccineDisabled] = useState(true)
-
-    const handleHospitalSelect = (event) => {
-        setSelectedHospital(event.target.value);        
-        setVaccineDisabled('');        
-    }
-    const handleVaksinSelect = (event) => {
-        setVaccineDisabled(event.target.value);        
-    }
-
-
     return(
         <React.Fragment>
                 <div className="row mt-4">
                     <div className="col-12">
                         <div className="card border-0 rounded shadow-sm border-top-success">
                             <div className="card-body">
-                                    <select onChange={handleHospitalSelect}>
+                                    <select>
                                         <option>Pilih Rumah Sakit</option>
                                         {categories.map((category, index) => (
-                                            <option>{category.name}</option>
+                                            <option>{category.nama_vaksin}</option>
                                         ))}
                                         </select>
-                                        {selectedHospital &&(
-
-                                        <select>
-                                            <option onChange={handleVaksinSelect} value={vaccineDisabled}>Pilih Vaksin</option>
-                                            {vaksin[selectedHospital]&&vaksin[selectedHospital].map((vaccines) => (
-                                                <option key={vaksin}>{vaccines.nama_vaksin}</option>
-                                            ))}
-                                        </select>
-                                        )}
+                                        
                             </div>
                         </div>
                     </div>
@@ -198,4 +179,4 @@ const updateUser = async (e) => {
 
 }
 
-export default Register
+export default Vaccine
