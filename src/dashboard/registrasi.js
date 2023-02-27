@@ -1,75 +1,74 @@
-//import react  
-import React, { useState, useEffect } from "react";
+import React from "react";
 
+import { useState, useEffect } from "react";
+
+//import BASE URL API
 import Api from "../api";
+
+//import hook history dari react router dom
+import { useHistory, useParams } from "react-router-dom";
 
 //import js cookie
 import Cookies from "js-cookie";
 
-import { useHistory, useLocation, useParams } from "react-router-dom";
-
-import "bootstrap/dist/js/bootstrap"
-
+//import toats
 import toast from "react-hot-toast";
+import axios from "axios";
 
-import { Link } from "react-router-dom";
+
 function Register() {
 
-	//title page
-    document.title = "Categories - Administrator Travel GIS";
+    const [spots, setSpots] = useState([]);
+    const [Spot, setSpot] = useState('');
+    const [vaccines, setVaccines] = useState([]);
+    const [Vaccine, setVaccine] = useState('');
+    const token = Cookies.get('token')
 
-    const [status, setstatus] = useState('');
+    const fetchData = async () => {
+        await Api.get('api/v1/auth/spots', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            setSpots(response.data.body);
+        })
+    }
+    
+    const fetchData1 = async (event) => {
+        await Api.get(`api/v1/auth/spots`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            const vaccines = response.data.vaccines;
+            setVaccines(vaccines);
+            setVaccine('');
+        })
+    }
 
-    const [doctor_notes, setdoctor_notes] = useState('');
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
+    const handleHospitalSelect = (event) => {
+        setSpot(event.target.value);
+        fetchData1();
+    }
+    
+    const handleVaksinChange = (event) => {
+        setVaccine(event.target.value);
+    }
 
+    const filterVaccines = vaccines.filter(spot => spot.spot_id == Spot);
+    const history =  useHistory()
     const [validation, setValidation] = useState({});
 
-    const history = useHistory();
+    const handleSubmit = async (event) =>  {
+        event.preventDefault();
 
-    const location = useLocation();
-    //get ID from parameter URL
-    const id = 'categories.id';
-
-    const getUserById = async () => {
-    const response = await Api.get(`/api/v1/auth/consultations/${categories.id}`, {
-
-        //header
-        headers: {
-            //header Bearer + Token
-            Authorization: `Bearer ${token}`,
-        }
-    });
-
-    //get response data
-    const data = await response.data.body
-
-    //assign data to state "name"
-    setstatus(data.status);
-    //assign data to state "email"
-    setdoctor_notes(data.doctor_notes);
-};
-
-//hook useEffect
-useEffect(() => {
-
-    //panggil function "getUserById"
-    getUserById();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
-
-//function "updateUser"
-const updateUser = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    //append data to "formData"
-    formData.append('status', status);
-    formData.append('note', doctor_notes);
-    formData.append('_method', 'PATCH');
-
-    await Api.post(`/api/v1/auth/consultations/${categories.id}`, formData, {
+        await Api.post('api/v1/auth/vaccinations', {Spot, Vaccine}, {
 
             //header
             headers: {
@@ -77,10 +76,11 @@ const updateUser = async (e) => {
                 Authorization: `Bearer ${token}`,
             }
 
-        }).then(() => {
+        })
+        .then(() => {
 
             //show toast
-            toast.success("Data Updated Successfully!", {
+            toast.success("Data success send", {
                 duration: 4000,
                 position: "top-right",
                 style: {
@@ -89,7 +89,6 @@ const updateUser = async (e) => {
                     color: '#fff',
                 },
             });
-
             //redirect dashboard page
             history.push("/admin/dashboard");
 
@@ -99,103 +98,37 @@ const updateUser = async (e) => {
             //set state "validation"
             setValidation(error.response.data);
         })
-
-}
-
-
-    //state posts
-    const [categories, setCategories] = useState([]);
-
-    const [vaksin, setVaksin] = useState([]);
-
-    //state currentPage
-    const [currentPage, setCurrentPage] = useState(1);
-
-    //state perPage
-    const [perPage, setPerPage] = useState(0);
-
-    //state total
-    const [total, setTotal] = useState(0);
-
-    //token
-    const token = Cookies.get("token");
-
-
-    //function "fetchData"
-    const fetchData = async () => {
-
-        //fetching data from Rest API
-        await Api.get('/api/v1/auth/spots', {
-            headers: {
-                //header Bearer + Token
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        .then(response => {
-            //set data response to state "categories"
-            setCategories(response.data.body);
-
-            setVaksin(response.data.vaccine)
-
-            //set currentPage
-            setCurrentPage(response.data.data.current_page);
-
-            //set perPage
-            setPerPage(response.data.data.per_page);
-
-            //total
-            setTotal(response.data.data.total);
-        });
-    };
-
-    //hook
-    useEffect(() => {
-        //call function "fetchData"
-        fetchData();
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const [selectedHospital, setSelectedHospital] = useState(null);
-    const [vaccineDisabled, setVaccineDisabled] = useState(true)
-
-    const handleHospitalSelect = (event) => {
-        setSelectedHospital(event.target.value);        
-        setVaccineDisabled('');        
     }
-    const handleVaksinSelect = (event) => {
-        setVaccineDisabled(event.target.value);        
-    }
-
 
     return(
-        <React.Fragment>
-                <div className="row mt-4">
-                    <div className="col-12">
-                        <div className="card border-0 rounded shadow-sm border-top-success">
-                            <div className="card-body">
-                                    <select onChange={handleHospitalSelect}>
-                                        <option>Pilih Rumah Sakit</option>
-                                        {categories.map((category, index) => (
-                                            <option>{category.name}</option>
-                                        ))}
-                                        </select>
-                                        {selectedHospital &&(
+    <React.Fragment>
+    <form onSubmit={handleSubmit}>
+        <select value={Spot} onChange={handleHospitalSelect}>
+            <option>ppp</option>
+            {spots.map(spot => (
+                <option key={spot.spot_id} value={spot.spot_id}>{spot.name}</option>
+            ))}
+        </select>    
+        {validation.Spot && (
+                                        <div className="alert alert-danger">
+                                            {validation.Spot[0]}
+                                        </div>
+                                    )}    
+        <select value={Vaccine} onChange={handleVaksinChange}>
+        <option>p</option>
+            {filterVaccines.map(spot => (
+                <option key={spot.id} value={spot.nama_vaksin}>{spot.nama_vaksin}</option>
+            ))}
+        </select>
+        {validation.Vaccine && (
+                                        <div className="alert alert-danger">
+                                            {validation.Vaccine[0]}
+                                        </div>
+                                    )}
+        <button type="submit">submit</button>
+        </form>
+    </React.Fragment>
 
-                                        <select>
-                                            <option onChange={handleVaksinSelect} value={vaccineDisabled}>Pilih Vaksin</option>
-                                            {vaksin[selectedHospital]&&vaksin[selectedHospital].map((vaccines) => (
-                                                <option key={vaksin}>{vaccines.nama_vaksin}</option>
-                                            ))}
-                                        </select>
-                                        )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </React.Fragment>
     )
-
 }
-
-export default Register
+export default Register;
