@@ -61,7 +61,7 @@ function Register() {
         setVaccine(event.target.value);
     }
 
-    const filterVaccines = vaccines.filter(spot => spot.spot_id == Spot);
+    const filterVaccines = vaccines.filter(spot => spot.spot == Spot);
     const history =  useHistory()
     const [validation, setValidation] = useState({});
 
@@ -77,7 +77,7 @@ function Register() {
             }
 
         })
-        .then(() => {
+        .then((response) => {
 
             //show toast
             toast.success("Data success send", {
@@ -90,8 +90,12 @@ function Register() {
                 },
             });
             //redirect dashboard page
+            Cookies.set('spot' ,response.data.data.Spot)
+            Cookies.set('vaccine' ,response.data.data.Vaccine)
+            Cookies.set('date' ,response.data.data.created_at)
+            Cookies.set('status' ,response.data.data.status)
+            
             history.push("/admin/dashboard");
-
         })
         .catch((error) => {
 
@@ -106,7 +110,7 @@ function Register() {
         <select value={Spot} onChange={handleHospitalSelect}>
             <option>ppp</option>
             {spots.map(spot => (
-                <option key={spot.spot_id} value={spot.spot_id}>{spot.name}</option>
+                <option key={spot.spot_id} value={spot.name}>{spot.name}</option>
             ))}
         </select>    
         {validation.Spot && (
@@ -125,7 +129,7 @@ function Register() {
                                             {validation.Vaccine[0]}
                                         </div>
                                     )}
-        <button type="submit">submit</button>
+        <button type="submit" id="submit">submit</button>
         </form>
     </React.Fragment>
 

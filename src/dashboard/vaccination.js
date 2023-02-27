@@ -8,6 +8,8 @@ import { Link, useLocation } from "react-router-dom";
 
 import Cookies from "js-cookie";
 
+import ShowRegister from "./showregister";
+
 function Vaccination(){
 
     const token = Cookies.get("token");
@@ -33,8 +35,19 @@ function Vaccination(){
     //destructuring pathname from location
     const { pathname } = location;
 
-    //Javascript split method to get the name of the path in array
-    const splitLocation = pathname.split("/");
+    const a = document.getElementById('submit');
+
+    let buttonClicked = false;
+
+// Menambahkan event listener ke button
+document.getElementById("submit").addEventListener("click", function() {
+  buttonClicked = true;
+});
+
+// Mengecek apakah button pernah diklik
+
+//Javascript split method to get the name of the path in array
+const splitLocation = pathname.split("/");
    if(user_id.status == 'pending' || user_id.status == 'reject'){
     return(
         <React.Fragment>
@@ -53,22 +66,44 @@ function Vaccination(){
         </React.Fragment>
     )
    }
-   return(
-    <React.Fragment>
-        <div className="row mt-5">
-            <div className="col-4">
-                <div className="card">
-                    <div className="card-header">
-                        <h5>First Vaccination</h5>
-                    </div>
-                    <div className="card-body">
-                    <Link className={splitLocation[2] === "registrasi" ? "active" : "text-decoration-none"} to="/admin/register">+Register Vaccination</Link>
+   if(user_id.status === 'accept'){
+    return(
+        <React.Fragment>
+            <div className="row mt-5">
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-header">
+                            <h5>First Vaccination</h5>
+                        </div>
+                        <div className="card-body">
+                        <Link className={splitLocation[2] === "registrasi" ? "active" : "text-decoration-none"} to="/admin/register">+Register Vaccination</Link>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </React.Fragment>
-)
+        </React.Fragment>
+    )
+   }
+   if (buttonClicked) {
+       return(
+           <React.Fragment>
+   
+    <ShowRegister></ShowRegister>  
+    <div className="col-4">
+                   <div className="card">
+                       <div className="card-header">
+                           <h5>First Vaccination</h5>
+                       </div>
+                       <div className="card-body">
+                       <Link className={splitLocation[2] === "registrasi" ? "active" : "text-decoration-none"} to="/admin/register">+Register Vaccination</Link>
+                       </div>
+                   </div>
+               </div> 
+           </React.Fragment>
+       )
+   } else {
+     console.log("Button belum pernah diklik");
+   }
 }
 
 export default Vaccination;

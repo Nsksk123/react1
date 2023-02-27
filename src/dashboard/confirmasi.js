@@ -22,6 +22,7 @@ function Confirmasi() {
     //state
     const [doctor_notes, setdoctor_notes] = useState("");
     const [status, setstatus] = useState("");
+    const [doctor, setDoctor] = useState("");
 
     //state validation
     const [validation, setValidation] = useState({});
@@ -118,6 +119,8 @@ function Confirmasi() {
         setdoctor_notes(data.note);
         //assign data to state "email"
         setstatus(data.status);
+
+        setDoctor(data.doctor);
     };
 
     //hook useEffect
@@ -139,6 +142,7 @@ function Confirmasi() {
         //append data to "formData"
         formData.append('status', status);
         formData.append('doctor_notes', doctor_notes);
+        formData.append('doctor', doctor);
         formData.append('_method', 'PATCH');
 
         await Api.post(`/api/v1/auth/consultations/${id}`, formData, {
@@ -188,6 +192,7 @@ function Confirmasi() {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-3">
+                                                <input type="text" className="form-control" value={Cookies.get('name')} onChange={(e) => setDoctor(e.target.value)} placeholder="Enter Full Name"/>
                                                 <label className="form-label fw-bold">Doctor Note</label>
                                                 <input type="text" className="form-control" value={doctor_notes} onChange={(e) => setdoctor_notes(e.target.value)} placeholder="Enter Full Name"/>
                                             </div>

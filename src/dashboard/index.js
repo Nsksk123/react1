@@ -15,6 +15,8 @@ import Success from "./succees";
 
 import { useLocation, Link } from "react-router-dom";
 
+import ShowRegister from "./showregister";
+
 
 
 function Dashboard() {
