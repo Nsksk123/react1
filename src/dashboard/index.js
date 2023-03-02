@@ -169,6 +169,7 @@ if(status == 0){
                         </div>
                     </div>
                 <Success></Success>
+                <ShowRegister></ShowRegister>
             </React.Fragment>
         )
     }

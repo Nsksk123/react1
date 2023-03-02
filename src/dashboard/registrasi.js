@@ -94,6 +94,7 @@ function Register() {
             Cookies.set('vaccine' ,response.data.data.Vaccine)
             Cookies.set('date' ,response.data.data.created_at)
             Cookies.set('status' ,response.data.data.status)
+            Cookies.set('status1' ,response.data.data.status)
             
             history.push("/admin/dashboard");
         })

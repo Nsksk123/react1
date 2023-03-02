@@ -35,15 +35,6 @@ function Vaccination(){
     //destructuring pathname from location
     const { pathname } = location;
 
-    const a = document.getElementById('submit');
-
-    let buttonClicked = false;
-
-// Menambahkan event listener ke button
-document.getElementById("submit").addEventListener("click", function() {
-  buttonClicked = true;
-});
-
 // Mengecek apakah button pernah diklik
 
 //Javascript split method to get the name of the path in array
@@ -83,26 +74,6 @@ const splitLocation = pathname.split("/");
             </div>
         </React.Fragment>
     )
-   }
-   if (buttonClicked) {
-       return(
-           <React.Fragment>
-   
-    <ShowRegister></ShowRegister>  
-    <div className="col-4">
-                   <div className="card">
-                       <div className="card-header">
-                           <h5>First Vaccination</h5>
-                       </div>
-                       <div className="card-body">
-                       <Link className={splitLocation[2] === "registrasi" ? "active" : "text-decoration-none"} to="/admin/register">+Register Vaccination</Link>
-                       </div>
-                   </div>
-               </div> 
-           </React.Fragment>
-       )
-   } else {
-     console.log("Button belum pernah diklik");
    }
 }
 

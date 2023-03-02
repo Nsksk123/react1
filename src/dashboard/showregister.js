@@ -71,53 +71,160 @@ function ShowRegister() {
     //Javascript split method to get the name of the path in array
     const splitLocation = pathname.split("/");
 
-    return (
-        <React.Fragment>
-            <div className="container mt-5">
-                <div className="row">
-                    <div className="col">
-                        <h3>My Consultation</h3>
+    if(Cookies.get('status') !== 'Vaccinated'){
+        return(
+            <React.Fragment>
+                
+<Vaccination></Vaccination>
+            </React.Fragment>
+        )
+    }
+
+    if(Cookies.get('status1') === 'Vaccinated'){
+        return (
+            <React.Fragment>
+                <div className="container mt-5">
+                    <div className="row">
+                        <div className="col">
+                            <h3>First Vaccination</h3>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-header">
-                                <h5>Consultation</h5>
+                    <div className="row">
+                        <div className="col-4">
+                            <div className="card">
+                                <div className="card-header">
+                                    <h5>First Vaccination</h5>
+                                </div>
+                                <div className="card-body">
+                                    <table className="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td className="bg-primary text-light rounded-1 text-center">{Cookies.get('status')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td className="text-center">{Cookies.get('date')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spot</td>
+                                            <td className="text-center">{Cookies.get('spot')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vaccine</td>
+                                            <td className="text-center">{Cookies.get('vaccine')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Doctor Name</td>
+                                            <td className="text-center">{consultations.doctor}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div className="card-body">
-                                <table className="table table-striped">
-                                    <tbody>
-                                    <tr>
-                                        <td>Status</td>
-                                        <td className="bg-primary text-light rounded-1 text-center">{Cookies.get('status')}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date</td>
-                                        <td className="text-center">{Cookies.get('date')}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Spot</td>
-                                        <td className="text-center">{Cookies.get('spot')}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Vaccine</td>
-                                        <td className="text-center">{Cookies.get('vaccine')}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Doctor Name</td>
-                                        <td className="text-center">{consultations.doctor}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        </div>
+                        <div className="col-4">
+                            <div className="card">
+                                <div className="card-header">
+                                    <h5>First Vaccination</h5>
+                                </div>
+                                <div className="card-body">
+                                    <table className="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td className="bg-primary text-light rounded-1 text-center">{Cookies.get('status')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td className="text-center">{Cookies.get('date')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spot</td>
+                                            <td className="text-center">{Cookies.get('spot')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vaccine</td>
+                                            <td className="text-center">{Cookies.get('vaccine')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Doctor Name</td>
+                                            <td className="text-center">{consultations.doctor}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-<Vaccination></Vaccination>
+            </React.Fragment>
+        )
+    }
+
+    if(Cookies.get('status') === 'Vaccinated'){
+        return (
+            <React.Fragment>
+                <div className="container mt-5">
+                    <div className="row">
+                        <div className="col">
+                            <h3>First Vaccination</h3>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-4">
+                            <div className="card">
+                                <div className="card-header">
+                                    <h5>First Vaccination</h5>
+                                </div>
+                                <div className="card-body">
+                                    <table className="table table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td className="bg-primary text-light rounded-1 text-center">{Cookies.get('status')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td className="text-center">{Cookies.get('date')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spot</td>
+                                            <td className="text-center">{Cookies.get('spot')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vaccine</td>
+                                            <td className="text-center">{Cookies.get('vaccine')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Doctor Name</td>
+                                            <td className="text-center">{consultations.doctor}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div className="row mt-5">
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-header">
+                            <h5>Second Vaccination</h5>
+                        </div>
+                        <div className="card-body">
+                        <Link className={splitLocation[2] === "registrasi" ? "active" : "text-decoration-none"} to="/admin/register">+Register Vaccination</Link>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </React.Fragment>
-    )
+                </div>
+            </React.Fragment>
+        )
+
+    }
+
     
     
     

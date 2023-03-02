@@ -5,6 +5,13 @@ import Cookies from "js-cookie";
 
 const logout = () => {
     Cookies.remove('token')
+    Cookies.remove('date')
+    Cookies.remove('name')
+    Cookies.remove('role')
+    Cookies.remove('region')
+    Cookies.remove('status')
+    Cookies.remove('spot')
+    Cookies.remove('vaccine')
 }
 
 function NavBar() {

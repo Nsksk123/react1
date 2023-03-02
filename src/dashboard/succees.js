@@ -114,7 +114,6 @@ function Success() {
                         </div>
                     </div>
                 </div>
-<Vaccination></Vaccination>
             </div>
         </React.Fragment>
     )
