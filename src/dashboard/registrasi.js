@@ -22,6 +22,7 @@ function Register() {
     const [Spot, setSpot] = useState('');
     const [vaccines, setVaccines] = useState([]);
     const [Vaccine, setVaccine] = useState('');
+    const [vaccineStock, setVaccineStock] = useState('');
     const token = Cookies.get('token')
 
     const fetchData = async () => {
@@ -43,6 +44,7 @@ function Register() {
         })
         .then(response => {
             const vaccines = response.data.vaccines;
+            setVaccineStock(vaccines)
             setVaccines(vaccines);
             setVaccine('');
         })
@@ -105,6 +107,26 @@ function Register() {
         })
     }
 
+    // function handleselectvaccine(vaccineName){
+    // vaccines.forEach(function(stock){
+    //     console.log(stock.stock)
+    //        const newStock = {...vaccineStock};
+    //        if(stock.stock > 0){
+    //            stock.stock -= 1;
+    //            setVaccineStock(newStock);
+    //        }
+    //        else{
+    //            alert("vaccine out of stock")
+    //        }
+    //     });
+        
+    // }
+
+
+    const updateStock = (vaccineId) => {
+        axios.post('/api/v1/auth/spots', {vaccine_id: vaccineId})
+}
+
     return(
     <React.Fragment>
     <form onSubmit={handleSubmit}>
@@ -122,7 +144,7 @@ function Register() {
         <select value={Vaccine} onChange={handleVaksinChange}>
         <option>p</option>
             {filterVaccines.map(spot => (
-                <option key={spot.id} value={spot.nama_vaksin}>{spot.nama_vaksin}</option>
+                <><option disabled={spot.stock === 0} key={spot.id} value={spot.nama_vaksin}>{spot.nama_vaksin}(Spot: {spot.stock})</option><button type="submit" id="submit" onClick={updateStock(spot.id)}>submit</button></>
             ))}
         </select>
         {validation.Vaccine && (
@@ -130,7 +152,6 @@ function Register() {
                                             {validation.Vaccine[0]}
                                         </div>
                                     )}
-        <button type="submit" id="submit">submit</button>
         </form>
     </React.Fragment>
 
